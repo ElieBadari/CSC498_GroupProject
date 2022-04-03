@@ -5,7 +5,7 @@
 $db_host = "localhost"; //localhost because the db is hosted locally on my computer
 $db_user = "root";//user used to log into the db default is root
 $db_pass = null;//default = null  
-$db_name = "mobiledb";
+$db_name = "currencyconverterdb";
 
 //constructor 
 $mysqli = new mysqli($db_host,$db_user,$db_pass,$db_name);
