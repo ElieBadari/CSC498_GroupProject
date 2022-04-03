@@ -10,11 +10,12 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 public class MainPage extends AppCompatActivity {
-    EditText cash = findViewById(R.id.amount); //amount entered by the user to be converted
 
+    EditText cash;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        cash = findViewById(R.id.amount); //amount entered by the user to be converted
         setContentView(R.layout.activity_main_page);
         Spinner Convert = (Spinner) findViewById(R.id.spinner); // spinner that will let the user choose the convertion he wants
         ArrayAdapter<String> myadapter = new ArrayAdapter<String>(MainPage.this,
@@ -22,6 +23,7 @@ public class MainPage extends AppCompatActivity {
         myadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         Convert.setAdapter(myadapter);
     }
+
     public void convert(View view) {   //this function will check the value of the spinner and will convert the amount entered by the user accordingly
         Spinner spinner = (Spinner) findViewById(R.id.spinner);
         TextView text = findViewById(R.id.amount_Converted);
