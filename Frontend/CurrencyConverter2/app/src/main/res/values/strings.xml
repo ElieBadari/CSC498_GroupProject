@@ -1,3 +1,8 @@
 <resources>
-    <string name="app_name">CurrencyConverter2</string>
+    <string name="app_name">Converter2</string>
+    <string-array name="Convertion">
+        <item>USD to LBP</item>
+        <item>LBP to USD</item>
+
+    </string-array>
 </resources>
