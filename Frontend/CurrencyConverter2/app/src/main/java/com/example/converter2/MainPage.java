@@ -25,30 +25,29 @@ public class MainPage extends AppCompatActivity {
     public class DownloadTask extends AsyncTask<String, Void, String> {
         public String rate = "";
         protected String doInBackground(String... urls) {
-            String getting = "";
+            String result = "";
             URL url;
             HttpURLConnection http;
 
             try {
                 url = new URL(urls[0]);
                 http = (HttpURLConnection) url.openConnection();
-
                 InputStream in = http.getInputStream();
                 InputStreamReader reader = new InputStreamReader(in);
                 int data = reader.read();
 
                 while (data != -1) {
                     char current = (char) data;
-                    getting += current;
+                    result += current;
                     data = reader.read();
-
                 }
+
             } catch (Exception e) {
                 e.printStackTrace();
                 return null;
             }
-            Log.i("getting", getting);
-            return getting;
+            Log.i("res", result);
+            return result;
         }
 
 
@@ -60,7 +59,7 @@ public class MainPage extends AppCompatActivity {
                 rate = json.getString("rate");
                 cash.setText("Current rate: 1 USD = " + rate + " LBP");
 
-                Log.i(" ", rate);
+                Log.i("result ", s);
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -78,7 +77,11 @@ public class MainPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_page);
         cash = findViewById(R.id.amount); //amount entered by the user to be converted
-        
+
+        String url = "";
+        DownloadTask task = new DownloadTask();
+        task.execute(url);
+
         Spinner Convert = (Spinner) findViewById(R.id.spinner); // spinner that will let the user choose the convertion he wants
         ArrayAdapter<String> myadapter = new ArrayAdapter<String>(MainPage.this,
                 android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.Convertion));
