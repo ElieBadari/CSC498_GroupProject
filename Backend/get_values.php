@@ -7,7 +7,7 @@ $id = $_GET["id"];
 //we will have a counter or something like that binded to the convert button
 //the counter will be the same amount as the id in the db and we will use that to retrieve the data
 
-$query = $mysqli -> prepare("SELECT (amount, currency) FROM conversions WHERE id = ?") ; 
+$query = $mysqli -> prepare("SELECT amount, currency FROM conversions WHERE id = ?") ; 
 
 $query->bind_param("i", $id);
 

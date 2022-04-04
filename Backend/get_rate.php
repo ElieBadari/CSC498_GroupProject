@@ -1,21 +1,27 @@
 <?php
 
-include("db_info.php");
-include("simple_html_dom.php");
+$url = "https://lirarate.org/wp-json/lirarate/v2/rates?currency=LBP&_ver=t20224410";
 
-//here we are getting the entire page converting it to dom and storing in var = $html
-$html = file_get_html("https://lirarate.org/");
-//what we are going to try to do is find the conversion rate
-//we are interested in the class = wp-block-columns
+$cURL = curl_init($url);
 
-foreach($html -> find(".tab-content") as $post_div )
-{
+curl_setopt($cURL, CURLOPT_RETURNTRANSFER, 1);
 
-    echo"<pre>";
-    die(var_dump($post_div));
+curl_setopt($cURL, CURLOPT_URL, $url);
 
-        
-}
+$result = curl_exec($cURL);
+
+curl_close($cURL);
+
+$stdClass = (json_decode($result));
+
+$array = json_decode(json_encode($stdClass),true);
+
+$rate = $array['buy'][count($array['buy']) -1][1];
+
+
+
+
+
 
 
 
