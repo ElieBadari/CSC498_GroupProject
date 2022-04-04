@@ -2,26 +2,91 @@ package com.example.converter2;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import org.json.JSONObject;
+
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
 public class MainPage extends AppCompatActivity {
 
     EditText cash;
+
+    public class DownloadTask extends AsyncTask<String, Void, String> {
+        public String rate = "";
+        protected String doInBackground(String... urls) {
+            String getting = "";
+            URL url;
+            HttpURLConnection http;
+
+            try {
+                url = new URL(urls[0]);
+                http = (HttpURLConnection) url.openConnection();
+
+                InputStream in = http.getInputStream();
+                InputStreamReader reader = new InputStreamReader(in);
+                int data = reader.read();
+
+                while (data != -1) {
+                    char current = (char) data;
+                    getting += current;
+                    data = reader.read();
+
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
+            Log.i("getting", getting);
+            return getting;
+        }
+
+
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+
+            try {
+                JSONObject json = new JSONObject(s);
+                rate = json.getString("rate");
+                cash.setText("Current rate: 1 USD = " + rate + " LBP");
+
+                Log.i(" ", rate);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+
+            }
+
+        }
+    }
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+
         super.onCreate(savedInstanceState);
-        cash = findViewById(R.id.amount); //amount entered by the user to be converted
         setContentView(R.layout.activity_main_page);
+        cash = findViewById(R.id.amount); //amount entered by the user to be converted
+        
         Spinner Convert = (Spinner) findViewById(R.id.spinner); // spinner that will let the user choose the convertion he wants
         ArrayAdapter<String> myadapter = new ArrayAdapter<String>(MainPage.this,
                 android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.Convertion));
         myadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         Convert.setAdapter(myadapter);
+
+
+
     }
 
     public void convert(View view) {   //this function will check the value of the spinner and will convert the amount entered by the user accordingly
