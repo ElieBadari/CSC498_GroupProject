@@ -40,25 +40,24 @@ public class MainPage extends AppCompatActivity {
                     char current = (char) data;
                     result += current;
                     data = reader.read();
+
                 }
 
             } catch (Exception e) {
                 e.printStackTrace();
                 return null;
             }
-            Log.i("res", result);
+
             return result;
         }
 
 
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-
+            Log.i("res", s);
             try {
                 JSONObject json = new JSONObject(s);
-                rate = json.getString("rate");
-                cash.setText("Current rate: 1 USD = " + rate + " LBP");
-
+                String amount = json.getString("amount");//gets the converted amount from the db using the api
                 Log.i("result ", s);
 
             } catch (Exception e) {
@@ -78,7 +77,7 @@ public class MainPage extends AppCompatActivity {
         setContentView(R.layout.activity_main_page);
         cash = findViewById(R.id.amount); //amount entered by the user to be converted
 
-        String url = "";
+        String url = "http://localhost/csc498x/CSC498X_GroupProject/Backend/get_values.php";
         DownloadTask task = new DownloadTask();
         task.execute(url);
 
