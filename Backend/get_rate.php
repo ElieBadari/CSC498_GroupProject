@@ -16,7 +16,7 @@ $stdClass = (json_decode($result));
 
 $array = json_decode(json_encode($stdClass),true);
 
-$rate = $array['buy'][count($array['buy']) -1][1];
+$rate = intval($array['buy'][count($array['buy']) -1][1]);
 
 
 
