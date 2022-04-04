@@ -21,6 +21,8 @@ import java.net.URL;
 public class MainPage extends AppCompatActivity {
 
     EditText cash;
+    int counter;
+
 
     public class DownloadTask extends AsyncTask<String, Void, String> {
         public String rate = "";
@@ -75,6 +77,7 @@ public class MainPage extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_page);
+        counter =0;
         cash = findViewById(R.id.amount); //amount entered by the user to be converted
 
         String url = "http://localhost/csc498x/CSC498X_GroupProject/Backend/get_values.php";
@@ -92,6 +95,7 @@ public class MainPage extends AppCompatActivity {
     }
 
     public void convert(View view) {   //this function will check the value of the spinner and will convert the amount entered by the user accordingly
+        counter+=1;
         Spinner spinner = (Spinner) findViewById(R.id.spinner);
         TextView text = findViewById(R.id.amount_Converted);
         String money = cash.getText().toString();         //takes the number entered by the user in the plain text and convert in to a string
