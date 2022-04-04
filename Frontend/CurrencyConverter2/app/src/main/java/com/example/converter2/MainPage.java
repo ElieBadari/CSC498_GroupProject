@@ -21,8 +21,13 @@ import java.net.URL;
 public class MainPage extends AppCompatActivity {
 
     EditText cash;
+    TextView text;
+    Spinner spinner;
+    String money;
+    String amount;
 
     public class DownloadTask extends AsyncTask<String, Void, String> {
+
         public String rate = "";
         protected String doInBackground(String... urls) {
             String result = "";
@@ -57,7 +62,8 @@ public class MainPage extends AppCompatActivity {
             Log.i("res", s);
             try {
                 JSONObject json = new JSONObject(s);
-                String amount = json.getString("amount");//gets the converted amount from the db using the api
+                amount = json.getString("amount");//gets the converted amount from the db using the api
+                String daily_rate = json.getString("rate");
                 Log.i("result ", s);
 
             } catch (Exception e) {
@@ -82,24 +88,23 @@ public class MainPage extends AppCompatActivity {
         task.execute(url);
 
         Spinner Convert = (Spinner) findViewById(R.id.spinner); // spinner that will let the user choose the convertion he wants
-        ArrayAdapter<String> myadapter = new ArrayAdapter<String>(MainPage.this,
+        ArrayAdapter<String> my_adapter = new ArrayAdapter<String>(MainPage.this,
                 android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.Convertion));
-        myadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        Convert.setAdapter(myadapter);
+        my_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        Convert.setAdapter(my_adapter);
 
 
 
     }
 
     public void convert(View view) {   //this function will check the value of the spinner and will convert the amount entered by the user accordingly
-        Spinner spinner = (Spinner) findViewById(R.id.spinner);
-        TextView text = findViewById(R.id.amount_Converted);
-        String money = cash.getText().toString();         //takes the number entered by the user in the plain text and convert in to a string
+        spinner = (Spinner) findViewById(R.id.spinner);
+        text = findViewById(R.id.amount_Converted);
+        money = cash.getText().toString();         //takes the number entered by the user in the plain text and convert in to a string
         float amount = Float.parseFloat(money);          // convert the string to a float so we can use this variable to do the convertion
 
         if (spinner.getSelectedItemId() == 0) {// if the user chose USD to LBP the amount entered will be multiplied by the daily rate
-            //amount * daily rate = newAmount;
-            // text.setText(new amount.toString);
+             text.setText(String.valueOf(amount));
         } else if (spinner.getSelectedItemId() == 1) {// if the user chose LBP to USD the amount entered will be divided by the daily rate
             //amount * daily rate = newAmount;
             // text.setText(new amount.toString);
